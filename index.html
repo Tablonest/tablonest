@@ -175,6 +175,11 @@
             object-fit: contain;
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .product-detail-image img:hover {
+            transform: scale(1.05);
         }
         .product-detail-info {
             flex: 1;
@@ -398,11 +403,11 @@
         <section id="productsSection">
             <div class="products">
                 <!-- توليد تلقائي لـ 200 منتج --><script>
-    // عرض أول 5 منتجات للاختبار
+    // عرض أول 5 منتجات للاختبار	
     for (let i = 1; i <= 25; i++) {
         document.write(`
-            <div class="product" onclick="showProductDetail(${i}, this)">
-                <img src="images/tablo1 (${i}).jpg" alt="تبلوه ${i}">
+            <div class="product" onclick="showProductDetail(${i}, this)">																		
+                <img src="images/tablo1_${i.toString().padStart(2, '0')}.jpg"
                 <h3>تبلوه ${i}</h3>
                 <p>تبلوه خشب مقاس 30×40</p>
                 <p style="font-weight: bold;">السعر: 200 جنيه</p>
@@ -416,7 +421,7 @@
         <div id="productDetail" class="product-detail hidden">
             <div class="product-detail-container">
                 <div class="product-detail-image">
-                    <img id="detailImage" src="" alt="تفاصيل المنتج">
+                    <img id="detailImage" src="" alt="تفاصيل المنتج" onclick="zoomProductImage(this)">
                 </div>
                 <div class="product-detail-info">
                     <h2>شكراً لاختيارك TabloNest</h2>
@@ -563,7 +568,7 @@
                 }, 400);
             }
             
-            document.getElementById('detailImage').src = `images/tablo1 (${productId}).jpg`;
+            document.getElementById('detailImage').src = `images/tablo1_${productId.toString().padStart(2, '0')}.jpg`;
             document.getElementById('productDescription').textContent = `تبلوه رقم ${productId} - مقاس 30×40 سم - خشب عالي الجودة - طباعة ديجتال ليزر`;
             
             document.getElementById('productsSection').classList.add('hidden');
@@ -571,6 +576,21 @@
             document.getElementById('orderForm').classList.add('hidden');
             document.getElementById('customOrder').classList.add('hidden');
             document.getElementById('contact').classList.add('hidden');
+        }
+
+        function zoomProductImage(imgElement) {
+            // إضافة تأثير النقر على الصورة
+            imgElement.classList.add('click-effect');
+            setTimeout(() => {
+                imgElement.classList.remove('click-effect');
+            }, 400);
+            
+            // تكبير الصورة عند النقر عليها
+            if (imgElement.style.transform === 'scale(1.5)') {
+                imgElement.style.transform = 'scale(1)';
+            } else {
+                imgElement.style.transform = 'scale(1.5)';
+            }
         }
 
         function showOrderForm(button) {
